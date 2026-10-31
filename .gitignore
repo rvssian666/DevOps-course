@@ -1,3 +1,8 @@
 .vagrant
 target
 Guia_Docker_Compose.html
+ContainerizationServiceList.txt
+.env
+.idea/
+.vscode/
+*.log

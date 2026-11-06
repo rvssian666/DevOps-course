@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Workspace Feed — HKH Infotech VProfile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="<%= contextPath %>/resources/Images/icons/favicon.ico"/>
+  <link rel="stylesheet" href="<%= contextPath %>/resources/css/modern.css">
+</head>
+<body>
+  <%- include('partials/topbar', { contextPath, username, activeNav: 'feed' }) %>
+
+  <div class="workspace-shell">
+    <%- include('partials/sidebar', { contextPath, username, currentUser, totalUsersCount, activeNav: 'feed' }) %>
+
+    <main>
+      <!-- Compose & Quick Infrastructure Bar -->
+      <section class="surface-panel" aria-label="Publish Engineering Update">
+        <div class="section-header">
+          <div>
+            <h1 class="section-title">Engineering Delivery Stream</h1>
+            <p class="section-subtitle">
+              Welcome back, <strong><%= username %></strong>. Share architecture notes, CI/CD release updates, or inspect cluster services.
+            </p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <a href="<%= contextPath %>/users" class="btn btn-secondary btn-sm"><span class="tabular-nums">All Users (<%= totalUsersCount %>)</span></a>
+            <a href="<%= contextPath %>/user/rabbit" class="btn btn-secondary btn-sm">RabbitMQ Status</a>
+            <a href="<%= contextPath %>/user/elasticsearch" class="btn btn-secondary btn-sm">Sync Elasticsearch</a>
+          </div>
+        </div>
+
+        <form method="POST" action="<%= contextPath %>/posts" style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label" for="postTitle">Discussion Title</label>
+              <input id="postTitle" type="text" name="title" class="form-input" placeholder="e.g. Zero-downtime blue/green deployment checklist" required />
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="postCategory">Topic Category</label>
+              <select id="postCategory" name="category" class="form-select">
+                <option value="Architecture">Architecture</option>
+                <option value="CI/CD">CI/CD</option>
+                <option value="Culture">Culture</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="postBody">Engineering Note</label>
+            <textarea id="postBody" name="body" class="form-textarea" placeholder="Share deployment metrics, runbook updates, or lessons learned with the team..." required></textarea>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div class="inline-meta">
+              <span>Posting as <strong><%= username %></strong></span>
+              <span class="sep">·</span>
+              <span>#DevOps · #ContinuousIntegration · #Automation</span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Publish Note</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Feed Stream -->
+      <section class="surface-panel" aria-label="Team Feed">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border-hairline); margin-bottom: 16px; flex-wrap: wrap;">
+          <div class="segmented-control" role="tablist" aria-label="Filter Posts by Category">
+            <button type="button" class="segmented-btn active" data-filter="all">All Posts (<span class="tabular-nums"><%= posts.length %></span>)</button>
+            <button type="button" class="segmented-btn" data-filter="Architecture">Architecture</button>
+            <button type="button" class="segmented-btn" data-filter="CI/CD">CI/CD</button>
+            <button type="button" class="segmented-btn" data-filter="Culture">Culture</button>
+          </div>
+
+          <div class="inline-meta">
+            <span>Showing active discussions</span>
+          </div>
+        </div>
+
+        <div class="feed-list" id="feedList">
+          <% posts.forEach(function(post) { %>
+            <article class="feed-item" data-category="<%= post.category %>">
+              <div class="feed-item-header">
+                <div class="feed-author-group">
+                  <div class="avatar-frame avatar-sm">
+                    <img src="<%= contextPath %><%= post.avatar %>" alt="<%= post.author %>" referrerPolicy="no-referrer" />
+                  </div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 15px; color: var(--text-primary);"><%= post.author %></div>
+                    <div class="inline-meta">
+                      <span><%= post.authorRole %></span>
+                      <span class="sep">·</span>
+                      <span><%= post.category %></span>
+                      <span class="sep">·</span>
+                      <span class="tabular-nums"><%= post.createdAt %></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h2 class="feed-title"><%= post.title %></h2>
+              <p class="feed-body"><%= post.body %></p>
+
+              <% if (post.image) { %>
+                <div class="feed-media">
+                  <img src="<%= contextPath %><%= post.image %>" alt="<%= post.title %>" referrerPolicy="no-referrer" />
+                </div>
+              <% } %>
+
+              <div class="inline-meta" style="margin-top: 8px;">
+                <% post.tags.forEach(function(tag, idx) { %>
+                  <span><%= tag %></span>
+                  <% if (idx < post.tags.length - 1) { %><span class="sep">·</span><% } %>
+                <% }); %>
+              </div>
+
+              <div class="feed-actions">
+                <div class="feed-action-group">
+                  <form method="POST" action="<%= contextPath %>/posts/<%= post.id %>/like" style="display: inline;">
+                    <button type="submit" class="btn btn-secondary btn-sm">
+                      <span class="tabular-nums">Endorse (<%= post.likes %>)</span>
+                    </button>
+                  </form>
+                </div>
+                <div class="inline-meta">
+                  <span class="tabular-nums"><%= post.comments.length %> <%= post.comments.length === 1 ? 'reply' : 'replies' %></span>
+                </div>
+              </div>
+
+              <% if (post.comments && post.comments.length > 0) { %>
+                <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-hairline); display: flex; flex-direction: column; gap: 12px;">
+                  <% post.comments.forEach(function(c) { %>
+                    <div style="display: flex; gap: 10px; align-items: flex-start; font-size: 13px;">
+                      <div class="avatar-frame" style="width: 28px; height: 28px;">
+                        <img src="<%= contextPath %><%= c.avatar %>" alt="<%= c.author %>" referrerPolicy="no-referrer" />
+                      </div>
+                      <div style="flex: 1;">
+                        <div class="inline-meta" style="margin-bottom: 2px;">
+                          <strong style="color: var(--text-primary);"><%= c.author %></strong>
+                          <span class="sep">·</span>
+                          <span class="tabular-nums"><%= c.time %></span>
+                        </div>
+                        <p style="color: var(--text-secondary);"><%= c.text %></p>
+                      </div>
+                    </div>
+                  <% }); %>
+                </div>
+              <% } %>
+            </article>
+          <% }); %>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var buttons = document.querySelectorAll('.segmented-btn[data-filter]');
+      var items = document.querySelectorAll('.feed-item[data-category]');
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var filter = btn.getAttribute('data-filter');
+          buttons.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          items.forEach(function (item) {
+            var cat = item.getAttribute('data-category');
+            item.style.display = (filter === 'all' || cat === filter) ? '' : 'none';
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

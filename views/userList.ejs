@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Engineering Directory — HKH Infotech VProfile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="<%= contextPath %>/resources/Images/icons/favicon.ico"/>
+  <link rel="stylesheet" href="<%= contextPath %>/resources/css/modern.css">
+</head>
+<body>
+  <%- include('partials/topbar', { contextPath, username, activeNav: 'users' }) %>
+
+  <div class="workspace-shell">
+    <%- include('partials/sidebar', { contextPath, username, currentUser, totalUsersCount: users.length, activeNav: 'users' }) %>
+
+    <main>
+      <section class="surface-panel" aria-label="User Directory">
+        <div class="section-header">
+          <div>
+            <h1 class="section-title">Organization Directory</h1>
+            <p class="section-subtitle">
+              Browse registered engineers, inspect Memcached record status, or update member profiles.
+            </p>
+          </div>
+          <div class="inline-meta">
+            <span>Total members: <strong class="tabular-nums" id="visibleCount"><%= users.length %></strong></span>
+          </div>
+        </div>
+
+        <!-- Search and Role Filter Bar -->
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 240px; max-width: 400px;">
+            <label for="directorySearch" class="form-label" style="display: block; margin-bottom: 4px;">Search by name, email, skill, or ID</label>
+            <input
+              id="directorySearch"
+              type="search"
+              class="form-input"
+              placeholder="Filter members (e.g. Abrar, AWS, 8)..."
+            />
+          </div>
+
+          <div class="segmented-control" role="tablist" aria-label="Filter by Role">
+            <button type="button" class="segmented-btn active" data-role="all">All Roles</button>
+            <button type="button" class="segmented-btn" data-role="Software Engineer">Software Engineers</button>
+            <button type="button" class="segmented-btn" data-role="DevOps">DevOps &amp; Cloud</button>
+          </div>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="data-table" id="usersTable">
+            <thead>
+              <tr>
+                <th style="width: 80px;">User ID</th>
+                <th>Member</th>
+                <th>Role &amp; Occupation</th>
+                <th>Primary Skills</th>
+                <th>Location</th>
+                <th class="num-col">Experience</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach(function(user) { %>
+                <tr
+                  class="user-row"
+                  data-search="<%= (user.id + ' ' + user.username + ' ' + (user.userEmail || '') + ' ' + (user.skills || '') + ' ' + (user.primaryOccupation || '')).toLowerCase() %>"
+                  data-role="<%= (user.primaryOccupation || '') %>"
+                >
+                  <td class="tabular-nums" style="font-weight: 600; color: var(--text-muted);">#<%= user.id %></td>
+                  <td>
+                    <div style="font-weight: 600; color: var(--text-primary);"><%= user.username %></div>
+                    <div style="font-size: 13px; color: var(--text-muted);"><%= user.userEmail || '—' %></div>
+                  </td>
+                  <td><%= user.primaryOccupation || 'Member' %></td>
+                  <td style="font-size: 13px; color: var(--text-secondary);"><%= user.skills || '—' %></td>
+                  <td style="font-size: 13px; color: var(--text-muted);"><%= user.permanentAddress || '—' %></td>
+                  <td class="num-col"><%= user.workingExperience ? String(user.workingExperience).trim() + ' yrs' : '—' %></td>
+                  <td style="text-align: right; white-space: nowrap;">
+                    <a href="<%= contextPath %>/users/<%= user.id %>" class="btn btn-secondary btn-sm">Inspect Record #<%= user.id %></a>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="emptyDirectoryState" style="display: none; padding: 36px 16px; text-align: center;">
+          <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 6px;">No matching directory members</h3>
+          <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 14px;">Try clearing your search filter or switching role categories.</p>
+          <button type="button" id="resetDirectoryFilter" class="btn btn-secondary btn-sm">Reset Filter</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var searchInput = document.getElementById('directorySearch');
+      var roleButtons = document.querySelectorAll('.segmented-btn[data-role]');
+      var rows = document.querySelectorAll('.user-row');
+      var countEl = document.getElementById('visibleCount');
+      var emptyEl = document.getElementById('emptyDirectoryState');
+      var resetBtn = document.getElementById('resetDirectoryFilter');
+      var activeRole = 'all';
+
+      function applyFilter() {
+        var q = (searchInput ? searchInput.value : '').trim().toLowerCase();
+        var visible = 0;
+        rows.forEach(function (row) {
+          var hay = row.getAttribute('data-search') || '';
+          var role = (row.getAttribute('data-role') || '').toLowerCase();
+          var matchQ = !q || hay.indexOf(q) !== -1;
+          var matchR = activeRole === 'all' || role.indexOf(activeRole.toLowerCase()) !== -1;
+          if (matchQ && matchR) {
+            row.style.display = '';
+            visible++;
+          } else {
+            row.style.display = 'none';
+          }
+        });
+        if (countEl) countEl.textContent = String(visible);
+        if (emptyEl) emptyEl.style.display = visible === 0 ? 'block' : 'none';
+      }
+
+      searchInput?.addEventListener('input', applyFilter);
+      roleButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          activeRole = btn.getAttribute('data-role') || 'all';
+          roleButtons.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          applyFilter();
+        });
+      });
+      resetBtn?.addEventListener('click', function () {
+        if (searchInput) searchInput.value = '';
+        activeRole = 'all';
+        roleButtons.forEach(function (b) {
+          b.classList.toggle('active', b.getAttribute('data-role') === 'all');
+        });
+        applyFilter();
+      });
+    })();
+  </script>
+</body>
+</html>

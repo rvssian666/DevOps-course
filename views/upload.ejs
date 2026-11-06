@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Upload Profile Photo — HKH Infotech VProfile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="<%= contextPath %>/resources/Images/icons/favicon.ico"/>
+  <link rel="stylesheet" href="<%= contextPath %>/resources/css/modern.css">
+</head>
+<body>
+  <%- include('partials/topbar', { contextPath, username, activeNav: 'upload' }) %>
+
+  <div class="workspace-shell">
+    <%- include('partials/sidebar', { contextPath, username, currentUser, totalUsersCount, activeNav: 'upload' }) %>
+
+    <main>
+      <section class="surface-panel" aria-label="Upload Profile Image">
+        <div class="section-header">
+          <div>
+            <h1 class="section-title">Upload Profile Image</h1>
+            <p class="section-subtitle">
+              Update the directory avatar associated with <strong><%= username %></strong>.
+            </p>
+          </div>
+          <div>
+            <a href="<%= contextPath %>/welcome" class="btn btn-secondary btn-sm">Back to Workspace</a>
+          </div>
+        </div>
+
+        <% if (typeof uploadStatus !== 'undefined' && uploadStatus) { %>
+          <div class="alert-banner <%= uploadSuccess ? 'alert-success' : 'alert-error' %>" role="status">
+            <%= uploadStatus %>
+          </div>
+        <% } %>
+
+        <form action="<%= contextPath %>/uploadFile" method="POST" enctype="multipart/form-data" style="max-width: 520px; display: flex; flex-direction: column; gap: 18px;">
+          <input type="hidden" name="userName" value="<%= username %>" />
+
+          <div class="form-field">
+            <label class="form-label" for="file">Select PNG or JPEG File</label>
+            <input type="file" name="file" id="file" class="form-input" accept="image/*" required />
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="name">Asset Identifier Name</label>
+            <input type="text" name="name" id="name" class="form-input" placeholder="e.g. <%= username %>_avatar" value="<%= username %>_avatar" required />
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 12px; padding-top: 8px;">
+            <button type="submit" class="btn btn-primary">Upload Image</button>
+            <a href="<%= contextPath %>/welcome" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<header class="topbar">
+  <a href="<%= contextPath %>/welcome" class="brand-wordmark">HKH Infotech</a>
+
+  <nav class="topbar-nav" aria-label="Primary Navigation">
+    <a href="<%= contextPath %>/welcome" class="topbar-link <%= activeNav === 'feed' ? 'active' : '' %>">Workspace</a>
+    <a href="<%= contextPath %>/users" class="topbar-link <%= activeNav === 'users' ? 'active' : '' %>">Directory</a>
+    <a href="<%= contextPath %>/user/rabbit" class="topbar-link <%= activeNav === 'rabbit' ? 'active' : '' %>">RabbitMQ</a>
+    <a href="<%= contextPath %>/user/elasticsearch" class="topbar-link <%= activeNav === 'es' ? 'active' : '' %>">Elasticsearch</a>
+    <a href="<%= contextPath %>/index" class="topbar-link <%= activeNav === 'company' ? 'active' : '' %>">Company</a>
+  </nav>
+
+  <div class="topbar-action">
+    <% if (typeof username !== 'undefined' && username) { %>
+      <a href="<%= contextPath %>/user/<%= username %>" class="btn btn-primary btn-sm">Edit Profile</a>
+    <% } else { %>
+      <a href="<%= contextPath %>/" class="btn btn-primary btn-sm">Sign In</a>
+    <% } %>
+  </div>
+</header>

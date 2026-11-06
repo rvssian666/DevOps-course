@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Update Profile — HKH Infotech VProfile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="<%= contextPath %>/resources/Images/icons/favicon.ico"/>
+  <link rel="stylesheet" href="<%= contextPath %>/resources/css/modern.css">
+</head>
+<body>
+  <%- include('partials/topbar', { contextPath, username, activeNav: 'profile' }) %>
+
+  <div class="workspace-shell">
+    <%- include('partials/sidebar', { contextPath, username, currentUser, totalUsersCount, activeNav: 'profile' }) %>
+
+    <main>
+      <section class="surface-panel" aria-label="Update Member Profile">
+        <div class="section-header">
+          <div>
+            <h1 class="section-title">Update User Profile</h1>
+            <p class="section-subtitle">
+              Edit primary identity, skills, and contact records for <strong><%= user.username %></strong>.
+            </p>
+          </div>
+          <div>
+            <a href="<%= contextPath %>/welcome" class="btn btn-secondary btn-sm">Back to Workspace</a>
+          </div>
+        </div>
+
+        <form method="POST" action="<%= contextPath %>/user/<%= user.username %>">
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label" for="updUsername">Name / Handle</label>
+              <input id="updUsername" type="text" name="username" value="<%= user.username || '' %>" class="form-input" placeholder="Username" required />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="updEmail">Work Email</label>
+              <input id="updEmail" type="email" name="userEmail" value="<%= user.userEmail || '' %>" class="form-input" placeholder="engineer@hkhinfotech.com" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="updDob">Date of Birth</label>
+              <input id="updDob" type="text" name="dateOfBirth" value="<%= user.dateOfBirth || '' %>" class="form-input" placeholder="01/01/1998" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="updNationality">Nationality</label>
+              <input id="updNationality" type="text" name="nationality" value="<%= user.nationality || '' %>" class="form-input" placeholder="Nationality" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="updFather">Father's Name</label>
+              <input id="updFather" type="text" name="fatherName" value="<%= user.fatherName || '' %>" class="form-input" placeholder="Father's Name" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="updMother">Mother's Name</label>
+              <input id="updMother" type="text" name="motherName" value="<%= user.motherName || '' %>" class="form-input" placeholder="Mother's Name" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Gender</label>
+              <div style="display: flex; gap: 18px; align-items: center; min-height: 42px;">
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+                  <input type="radio" name="gender" value="male" <%= (!user.gender || user.gender === 'male') ? 'checked' : '' %> /> Male
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+                  <input type="radio" name="gender" value="female" <%= user.gender === 'female' ? 'checked' : '' %> /> Female
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+                  <input type="radio" name="gender" value="other" <%= user.gender === 'other' ? 'checked' : '' %> /> Other
+                </label>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Marital Status</label>
+              <div style="display: flex; gap: 18px; align-items: center; min-height: 42px;">
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+                  <input type="radio" name="maritalStatus" value="Married" <%= user.maritalStatus === 'Married' ? 'checked' : '' %> /> Married
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 14px;">
+                  <input type="radio" name="maritalStatus" value="unMarried" <%= (!user.maritalStatus || user.maritalStatus === 'unMarried') ? 'checked' : '' %> /> Unmarried
+                </label>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="updPermAddr">Permanent Address</label>
+              <input id="updPermAddr" type="text" name="permanentAddress" value="<%= user.permanentAddress || '' %>" class="form-input" placeholder="City, Country" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="updTempAddr">Temporary Address</label>
+              <input id="updTempAddr" type="text" name="tempAddress" value="<%= user.tempAddress || '' %>" class="form-input" placeholder="Area, Street, District" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="updPrimOcc">Primary Occupation</label>
+              <input id="updPrimOcc" type="text" name="primaryOccupation" value="<%= user.primaryOccupation || '' %>" class="form-input" placeholder="e.g. DevOps Architect" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="updSecOcc">Secondary Occupation</label>
+              <input id="updSecOcc" type="text" name="secondaryOccupation" value="<%= user.secondaryOccupation || '' %>" class="form-input" placeholder="e.g. Cloud Consultant" />
+            </div>
+
+            <div class="form-field full-width">
+              <label class="form-label" for="updSkills">Technical Skills</label>
+              <input id="updSkills" type="text" name="skills" value="<%= user.skills || '' %>" class="form-input" placeholder="Docker, Kubernetes, AWS, Terraform, Jenkins" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="updPhone">Primary Phone Number</label>
+              <input id="updPhone" type="text" name="phoneNumber" value="<%= user.phoneNumber || '' %>" class="form-input" placeholder="Phone Number" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="updSecPhone">Secondary Phone Number</label>
+              <input id="updSecPhone" type="text" name="secondaryPhoneNumber" value="<%= user.secondaryPhoneNumber || '' %>" class="form-input" placeholder="Secondary Phone Number" />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Primary Language</label>
+              <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center; min-height: 42px;">
+                <label style="display: flex; align-items: center; gap: 5px; font-size: 14px;">
+                  <input type="radio" name="language" value="english" <%= (!user.language || user.language === 'english') ? 'checked' : '' %> /> English
+                </label>
+                <label style="display: flex; align-items: center; gap: 5px; font-size: 14px;">
+                  <input type="radio" name="language" value="spanish" <%= user.language === 'spanish' ? 'checked' : '' %> /> Spanish
+                </label>
+                <label style="display: flex; align-items: center; gap: 5px; font-size: 14px;">
+                  <input type="radio" name="language" value="german" <%= user.language === 'german' ? 'checked' : '' %> /> German
+                </label>
+                <label style="display: flex; align-items: center; gap: 5px; font-size: 14px;">
+                  <input type="radio" name="language" value="hindi" <%= user.language === 'hindi' ? 'checked' : '' %> /> Hindi
+                </label>
+                <label style="display: flex; align-items: center; gap: 5px; font-size: 14px;">
+                  <input type="radio" name="language" value="other" <%= user.language === 'other' ? 'checked' : '' %> /> Other
+                </label>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="updExp">Working Experience (Years)</label>
+              <input id="updExp" type="text" name="workingExperience" value="<%= user.workingExperience || '' %>" class="form-input" placeholder="e.g. 8" />
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border-hairline);">
+            <a href="<%= contextPath %>/welcome" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save Profile Changes</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

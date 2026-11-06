@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>HKH Infotech VProfile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="DevOps VProfile social media and user management web application migrated to Node.js and Express.">
+  <meta property="og:title" content="HKH Infotech VProfile">
+  <meta property="og:description" content="DevOps VProfile social media and user management web application migrated to Node.js and Express.">
+  <link rel="icon" type="image/png" href="<%= contextPath %>/resources/Images/icons/favicon.ico"/>
+  <link rel="stylesheet" href="<%= contextPath %>/resources/css/modern.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="<%= contextPath %>/index" class="brand-wordmark">HKH Infotech</a>
+    <nav class="topbar-nav" aria-label="Public Navigation">
+      <a href="<%= contextPath %>/index" class="topbar-link">Overview</a>
+      <a href="<%= contextPath %>/index#technologies" class="topbar-link">Stack</a>
+      <a href="<%= contextPath %>/index#about" class="topbar-link">About</a>
+      <a href="<%= contextPath %>/index#contact" class="topbar-link">Contact</a>
+    </nav>
+    <div class="topbar-action">
+      <a href="<%= contextPath %>/registration" class="btn btn-secondary btn-sm">Create Account</a>
+    </div>
+  </header>
+
+  <main class="auth-split">
+    <section class="auth-editorial">
+      <img class="auth-editorial-bg" src="<%= contextPath %>/resources/Images/dev_img.jpeg" alt="DevOps Infrastructure" referrerPolicy="no-referrer" />
+      <div class="auth-editorial-scrim"></div>
+
+      <div class="auth-editorial-content">
+        <div class="inline-meta" style="color: #94a3b8; margin-bottom: 16px;">
+          <span>Enterprise Delivery Platform</span>
+          <span class="sep">·</span>
+          <span>Hyderabad &amp; Global Teams</span>
+        </div>
+        <h1 class="auth-editorial-title">Unify engineering directories, service health, and delivery culture.</h1>
+        <p class="auth-editorial-lead">
+          Manage your engineering organization in one workspace—inspect cached member profiles, verify RabbitMQ broker topology, and synchronize Elasticsearch user directories.
+        </p>
+      </div>
+
+      <div class="auth-metrics-strip">
+        <div>
+          <div class="auth-metric-val">168x</div>
+          <div class="auth-metric-label">Faster incident recovery</div>
+        </div>
+        <div>
+          <div class="auth-metric-val">30x</div>
+          <div class="auth-metric-label">Deployment frequency</div>
+        </div>
+        <div>
+          <div class="auth-metric-val">99.9%</div>
+          <div class="auth-metric-label">Directory cache availability</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-form-pane">
+      <div class="auth-form-box">
+        <div style="margin-bottom: 28px;">
+          <h2 style="font-size: 26px; font-weight: 700; margin-bottom: 6px;">Sign in to VProfile</h2>
+          <p style="font-size: 14px; color: var(--text-muted);">
+            Enter your account credentials or use the demo administrator account below.
+          </p>
+        </div>
+
+        <% if (error) { %>
+          <div class="alert-banner alert-error" role="alert">
+            <%= error %>
+          </div>
+        <% } %>
+        <% if (message) { %>
+          <div class="alert-banner alert-success" role="status">
+            <%= message %>
+          </div>
+        <% } %>
+
+        <form method="POST" action="<%= contextPath %>/login" id="loginForm" style="display: flex; flex-direction: column; gap: 18px;">
+          <div class="form-field">
+            <label class="form-label" for="usernameInput">Username</label>
+            <input
+              id="usernameInput"
+              class="form-input"
+              type="text"
+              name="username"
+              placeholder="e.g. admin_vp"
+              required
+              autofocus
+            />
+          </div>
+
+          <div class="form-field">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <label class="form-label" for="passwordInput">Password</label>
+              <button
+                type="button"
+                id="fillDemoBtn"
+                style="background: none; border: none; color: var(--accent-primary); font-size: 13px; font-weight: 600; cursor: pointer;"
+              >
+                Use demo credentials
+              </button>
+            </div>
+            <input
+              id="passwordInput"
+              class="form-input"
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 6px;">
+            Sign In to Workspace
+          </button>
+        </form>
+
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-hairline); display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
+          <span style="color: var(--text-muted);">New to HKH Infotech?</span>
+          <a href="<%= contextPath %>/registration" style="color: var(--accent-primary); font-weight: 600;">Create an account</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('fillDemoBtn')?.addEventListener('click', function () {
+      var u = document.getElementById('usernameInput');
+      var p = document.getElementById('passwordInput');
+      if (u && p) {
+        u.value = 'admin_vp';
+        p.value = 'admin_vp';
+        u.focus();
+      }
+    });
+  </script>
+</body>
+</html>

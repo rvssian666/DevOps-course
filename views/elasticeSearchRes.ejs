@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Elasticsearch Index — HKH Infotech VProfile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="<%= contextPath %>/resources/Images/icons/favicon.ico"/>
+  <link rel="stylesheet" href="<%= contextPath %>/resources/css/modern.css">
+</head>
+<body>
+  <%- include('partials/topbar', { contextPath, username, activeNav: 'es' }) %>
+
+  <div class="workspace-shell">
+    <%- include('partials/sidebar', { contextPath, username, currentUser, totalUsersCount, activeNav: 'es' }) %>
+
+    <main>
+      <section class="surface-panel" aria-label="Elasticsearch Synchronization">
+        <div class="section-header">
+          <div>
+            <div class="inline-meta" style="margin-bottom: 6px;">
+              <span>Search Cluster: vprofile</span>
+              <span class="sep">·</span>
+              <span>Index: /users/_doc</span>
+              <span class="sep">·</span>
+              <strong style="color: var(--status-ok);"><%= result || res %></strong>
+            </div>
+            <h1 class="section-title">Data is <%= result || res %> into Elasticsearch</h1>
+            <p class="section-subtitle">
+              All member documents are indexed and queryable via REST endpoints (<code class="tabular-nums">/rest/users/view/:id</code>).
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <a href="<%= contextPath %>/user/elasticsearch" class="btn btn-primary btn-sm">Re-Index Directory</a>
+            <a href="<%= contextPath %>/welcome" class="btn btn-secondary btn-sm">Back to Workspace</a>
+          </div>
+        </div>
+
+        <% if (typeof indexedDocs !== 'undefined' && indexedDocs.length > 0) { %>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Doc ID</th>
+                  <th>Indexed Name</th>
+                  <th>Date of Birth</th>
+                  <th>Gender</th>
+                  <th>Nationality</th>
+                  <th class="num-col">Phone</th>
+                  <th style="text-align: right;">REST Endpoint</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% indexedDocs.forEach(function(doc) { %>
+                  <tr>
+                    <td class="tabular-nums">#<%= doc.id %></td>
+                    <td style="font-weight: 600;"><%= doc.name %></td>
+                    <td class="tabular-nums"><%= doc.DOB || '—' %></td>
+                    <td><%= doc.gender || '—' %></td>
+                    <td><%= doc.nationality || '—' %></td>
+                    <td class="num-col"><%= doc.phoneNumber || '—' %></td>
+                    <td style="text-align: right;">
+                      <a href="<%= contextPath %>/rest/users/view/<%= doc.id %>" class="btn btn-secondary btn-sm">Inspect Doc</a>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

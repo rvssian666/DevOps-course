@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Create Account — HKH Infotech VProfile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="<%= contextPath %>/resources/Images/icons/favicon.ico"/>
+  <link rel="stylesheet" href="<%= contextPath %>/resources/css/modern.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="<%= contextPath %>/index" class="brand-wordmark">HKH Infotech</a>
+    <nav class="topbar-nav" aria-label="Public Navigation">
+      <a href="<%= contextPath %>/index" class="topbar-link">Overview</a>
+      <a href="<%= contextPath %>/index#technologies" class="topbar-link">Stack</a>
+      <a href="<%= contextPath %>/index#about" class="topbar-link">About</a>
+      <a href="<%= contextPath %>/index#contact" class="topbar-link">Contact</a>
+    </nav>
+    <div class="topbar-action">
+      <a href="<%= contextPath %>/" class="btn btn-secondary btn-sm">Sign In</a>
+    </div>
+  </header>
+
+  <main class="auth-split">
+    <section class="auth-editorial">
+      <img class="auth-editorial-bg" src="<%= contextPath %>/resources/Images/dev_img.jpeg" alt="DevOps Infrastructure" referrerPolicy="no-referrer" />
+      <div class="auth-editorial-scrim"></div>
+
+      <div class="auth-editorial-content">
+        <div class="inline-meta" style="color: #94a3b8; margin-bottom: 16px;">
+          <span>Member Onboarding</span>
+          <span class="sep">·</span>
+          <span>VProfile Directory</span>
+        </div>
+        <h1 class="auth-editorial-title">Join the engineering directory and delivery feed.</h1>
+        <p class="auth-editorial-lead">
+          Create your engineering profile to collaborate on architecture proposals, share CI/CD playbooks, and synchronize your skills across the organization.
+        </p>
+      </div>
+
+      <div class="auth-metrics-strip">
+        <div>
+          <div class="auth-metric-val">6–32</div>
+          <div class="auth-metric-label">Character handle length</div>
+        </div>
+        <div>
+          <div class="auth-metric-val">BCrypt</div>
+          <div class="auth-metric-label">Credential hashing</div>
+        </div>
+        <div>
+          <div class="auth-metric-val">Instant</div>
+          <div class="auth-metric-label">Directory indexing</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-form-pane">
+      <div class="auth-form-box">
+        <div style="margin-bottom: 28px;">
+          <h2 style="font-size: 26px; font-weight: 700; margin-bottom: 6px;">Create your account</h2>
+          <p style="font-size: 14px; color: var(--text-muted);">
+            Register a new VProfile engineering handle.
+          </p>
+        </div>
+
+        <form method="POST" action="<%= contextPath %>/registration" style="display: flex; flex-direction: column; gap: 18px;" novalidate>
+          <div class="form-field">
+            <label class="form-label" for="emailField">Work Email</label>
+            <input
+              id="emailField"
+              type="email"
+              name="userEmail"
+              value="<%= userForm.userEmail || '' %>"
+              class="form-input"
+              placeholder="engineer@hkhinfotech.com"
+              required
+            />
+            <% if (errors && errors.userEmail) { %>
+              <span class="field-error"><%= errors.userEmail %></span>
+            <% } %>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="usernameField">Username (6–32 characters)</label>
+            <input
+              id="usernameField"
+              type="text"
+              name="username"
+              value="<%= userForm.username || '' %>"
+              class="form-input"
+              placeholder="e.g. devops_architect"
+              required
+            />
+            <% if (errors && errors.username) { %>
+              <span class="field-error"><%= errors.username %></span>
+            <% } %>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="passwordField">Password (minimum 8 characters)</label>
+            <input
+              id="passwordField"
+              type="password"
+              name="password"
+              class="form-input"
+              placeholder="Create a strong password"
+              required
+            />
+            <% if (errors && errors.password) { %>
+              <span class="field-error"><%= errors.password %></span>
+            <% } %>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="passwordConfirmField">Confirm Password</label>
+            <input
+              id="passwordConfirmField"
+              type="password"
+              name="passwordConfirm"
+              class="form-input"
+              placeholder="Repeat your password"
+              required
+            />
+            <% if (errors && errors.passwordConfirm) { %>
+              <span class="field-error"><%= errors.passwordConfirm %></span>
+            <% } %>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 6px;">
+            Create Account
+          </button>
+        </form>
+
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-hairline); display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
+          <span style="color: var(--text-muted);">Already have an account?</span>
+          <a href="<%= contextPath %>/" style="color: var(--accent-primary); font-weight: 600;">Sign in</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

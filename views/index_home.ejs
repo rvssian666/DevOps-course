@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>HKH Infotech — DevOps &amp; Cloud Engineering</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="<%= contextPath %>/resources/Images/icons/favicon.ico"/>
+  <link rel="stylesheet" href="<%= contextPath %>/resources/css/modern.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="<%= contextPath %>/index" class="brand-wordmark">HKH Infotech</a>
+    <nav class="topbar-nav" aria-label="Corporate Navigation">
+      <a href="#technologies" class="topbar-link">Technologies</a>
+      <a href="#about" class="topbar-link">About</a>
+      <a href="#contact" class="topbar-link">Contact</a>
+      <a href="<%= contextPath %>/welcome" class="topbar-link">Workspace</a>
+    </nav>
+    <div class="topbar-action">
+      <a href="<%= contextPath %>/" class="btn btn-primary btn-sm">Member Sign In</a>
+    </div>
+  </header>
+
+  <main style="max-width: 1200px; margin: 0 auto; padding: 48px 24px 80px;">
+    <!-- Hero Split -->
+    <section style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: stretch; margin-bottom: 64px;">
+      <div style="display: flex; flex-direction: column; justify-content: center;">
+        <div class="inline-meta" style="margin-bottom: 14px;">
+          <span>Continuous Delivery Consulting</span>
+          <span class="sep">·</span>
+          <span>Hyderabad, India</span>
+        </div>
+        <h1 style="font-size: clamp(2.25rem, 3.8vw, 3.5rem); line-height: 1.12; margin-bottom: 20px;">
+          Keep Learning. Automate Software Delivery at Scale.
+        </h1>
+        <p style="font-size: 16px; color: var(--text-secondary); margin-bottom: 28px; max-width: 62ch;">
+          Learning is a treasure that will follow its owner everywhere. HKH Infotech partners with engineering organizations to modernize build pipelines, container orchestration, and cloud infrastructure.
+        </p>
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <a href="<%= contextPath %>/welcome" class="btn btn-primary">Open Engineering Workspace</a>
+          <a href="<%= contextPath %>/registration" class="btn btn-secondary">Register Member Handle</a>
+        </div>
+      </div>
+
+      <div style="border-radius: var(--radius-outer); overflow: hidden; border: 1px solid var(--border-hairline); background: #0f172a; display: flex;">
+        <img
+          src="<%= contextPath %>/resources/Images/dev_img.jpeg"
+          alt="DevOps Architecture"
+          style="width: 100%; height: 100%; object-fit: cover;"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+    </section>
+
+    <!-- Technologies Matrix -->
+    <section id="technologies" class="surface-panel" style="margin-bottom: 48px;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Core Toolchain &amp; Infrastructure Stack</h2>
+          <p class="section-subtitle"> Battle-tested open source and cloud-native platforms powering our delivery pipelines.</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+        <% const tools = [
+          { name: 'Ansible', role: 'Configuration Management', img: '/resources/Images/technologies/Ansible_logo.png' },
+          { name: 'Amazon Web Services', role: 'Cloud Infrastructure', img: '/resources/Images/technologies/aws.png' },
+          { name: 'Git', role: 'Distributed Version Control', img: '/resources/Images/technologies/git.jpg' },
+          { name: 'Jenkins', role: 'Continuous Integration', img: '/resources/Images/technologies/jenkins.png' },
+          { name: 'Docker', role: 'Container Runtime', img: '/resources/Images/technologies/docker.png' },
+          { name: 'Puppet', role: 'Declarative Automation', img: '/resources/Images/technologies/puppet.jpg' },
+          { name: 'Vagrant', role: 'Reproducible Environments', img: '/resources/Images/technologies/Vagrant.png' },
+          { name: 'Python', role: 'Automation & Scripting', img: '/resources/Images/technologies/python-logo.png' }
+        ]; %>
+        <% tools.forEach(function(tool) { %>
+          <div style="padding: 18px; border: 1px solid var(--border-hairline); border-radius: var(--radius-inner); display: flex; align-items: center; gap: 14px;">
+            <img src="<%= contextPath %><%= tool.img %>" alt="<%= tool.name %>" style="width: 48px; height: 48px; object-fit: contain; flex-shrink: 0;" referrerPolicy="no-referrer" />
+            <div>
+              <div style="font-weight: 700; font-size: 15px;"><%= tool.name %></div>
+              <div style="font-size: 13px; color: var(--text-muted);"><%= tool.role %></div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+
+    <!-- About & Contact Split -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px;">
+      <section id="about" class="surface-panel" style="margin-top: 0;">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">About HKH Infotech</h2>
+            <p class="section-subtitle">Engineering excellence and automated delivery.</p>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px; color: var(--text-secondary);">
+          <p>
+            HKH Infotech is a dynamic software company dedicated to delivering innovative technology solutions. Founded with a mission to leverage cutting-edge technology and deep operational expertise, we build reliable software systems that drive business velocity.
+          </p>
+          <p>
+            Our team is led by seasoned DevOps architects with extensive experience automating and optimizing the software development lifecycle—ensuring every deployment is repeatable, observable, and resilient.
+          </p>
+          <div style="margin-top: 10px; padding-top: 16px; border-top: 1px solid var(--border-hairline); display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+            <div><strong>Address:</strong> Punjagutta Colony Ameerpet, Hyderabad</div>
+            <div><strong>Phone:</strong> <span class="tabular-nums">+91-8001234567</span></div>
+            <div><strong>Email:</strong> contact@hkhinfotech.com</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="surface-panel" style="margin-top: 0;">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Contact Engineering</h2>
+            <p class="section-subtitle">Let's talk about your next platform or pipeline initiative.</p>
+          </div>
+        </div>
+
+        <% if (typeof contactSubmitted !== 'undefined' && contactSubmitted) { %>
+          <div class="alert-banner alert-success" role="status">
+            Thank you, <strong><%= contactName %></strong>. Our engineering team has received your inquiry.
+          </div>
+        <% } %>
+
+        <form action="<%= contextPath %>/index" method="GET" style="display: flex; flex-direction: column; gap: 14px;">
+          <input type="hidden" name="submitted" value="1" />
+          <div class="form-field">
+            <label class="form-label" for="contactName">Your Name</label>
+            <input id="contactName" class="form-input" type="text" placeholder="Full Name" required name="Name" />
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="contactEmail">Work Email</label>
+            <input id="contactEmail" class="form-input" type="email" placeholder="you@company.com" required name="Email" />
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="contactSubject">Subject</label>
+            <input id="contactSubject" class="form-input" type="text" placeholder="CI/CD Pipeline Modernization" required name="Subject" />
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="contactComment">Project Details</label>
+            <textarea id="contactComment" class="form-textarea" placeholder="Tell us about your infrastructure goals..." required name="Comment"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit" style="align-self: flex-start;">
+            Send Message
+          </button>
+        </form>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

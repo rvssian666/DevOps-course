@@ -1,0 +1,61 @@
+<aside class="workspace-sidebar" aria-label="Workspace Sidebar">
+  <div class="sidebar-profile">
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <div class="avatar-frame">
+        <img src="<%= contextPath %>/resources/Images/user/user.png" alt="<%= username %> avatar" referrerPolicy="no-referrer" />
+      </div>
+      <div>
+        <div class="sidebar-user-name"><%= username %></div>
+        <div class="sidebar-user-handle"><%= (currentUser && currentUser.userEmail) ? currentUser.userEmail : (username + '@hkhinfotech.co.in') %></div>
+      </div>
+    </div>
+    <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+      <%= (currentUser && currentUser.primaryOccupation) ? currentUser.primaryOccupation : 'DevOps Platform Engineer' %> · Product Delivery &amp; Automation
+    </p>
+  </div>
+
+  <div class="sidebar-meta-list">
+    <div class="sidebar-meta-row">
+      <span class="sidebar-meta-label">Location</span>
+      <span class="sidebar-meta-value"><%= (currentUser && currentUser.permanentAddress) ? currentUser.permanentAddress : 'Hyderabad, India' %></span>
+    </div>
+    <div class="sidebar-meta-row">
+      <span class="sidebar-meta-label">Experience</span>
+      <span class="sidebar-meta-value tabular-nums"><%= (currentUser && currentUser.workingExperience) ? String(currentUser.workingExperience).trim() + ' yrs' : '10 yrs' %></span>
+    </div>
+    <div class="sidebar-meta-row">
+      <span class="sidebar-meta-label">Primary Stack</span>
+      <span class="sidebar-meta-value"><%= (currentUser && currentUser.skills) ? currentUser.skills : 'Docker · AWS · Jenkins' %></span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav-list" aria-label="Workspace Sections">
+    <a href="<%= contextPath %>/welcome" class="sidebar-nav-item <%= activeNav === 'feed' ? 'active' : '' %>">
+      <span>Engineering Feed</span>
+      <span class="tabular-nums" style="font-size: 12px; color: var(--text-muted);">Live</span>
+    </a>
+    <a href="<%= contextPath %>/users" class="sidebar-nav-item <%= activeNav === 'users' ? 'active' : '' %>">
+      <span>All Users Directory</span>
+      <span class="tabular-nums" style="font-size: 12px; color: var(--text-muted);"><%= typeof totalUsersCount !== 'undefined' ? totalUsersCount : 10 %></span>
+    </a>
+    <a href="<%= contextPath %>/user/<%= username %>" class="sidebar-nav-item <%= activeNav === 'profile' ? 'active' : '' %>">
+      <span>Update My Profile</span>
+    </a>
+    <a href="<%= contextPath %>/upload" class="sidebar-nav-item <%= activeNav === 'upload' ? 'active' : '' %>">
+      <span>Change Profile Photo</span>
+    </a>
+    <a href="<%= contextPath %>/user/rabbit" class="sidebar-nav-item <%= activeNav === 'rabbit' ? 'active' : '' %>">
+      <span>RabbitMQ Broker</span>
+    </a>
+    <a href="<%= contextPath %>/user/elasticsearch" class="sidebar-nav-item <%= activeNav === 'es' ? 'active' : '' %>">
+      <span>Elasticsearch Index</span>
+    </a>
+  </nav>
+
+  <form method="GET" action="<%= contextPath %>/" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-hairline);">
+    <input type="hidden" name="logout" value="1" />
+    <button type="submit" class="btn btn-secondary btn-sm" style="width: 100%;">
+      Sign Out
+    </button>
+  </form>
+</aside>

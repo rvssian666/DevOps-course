@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Member Record — HKH Infotech VProfile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="<%= contextPath %>/resources/Images/icons/favicon.ico"/>
+  <link rel="stylesheet" href="<%= contextPath %>/resources/css/modern.css">
+</head>
+<body>
+  <%- include('partials/topbar', { contextPath, username, activeNav: 'users' }) %>
+
+  <div class="workspace-shell">
+    <%- include('partials/sidebar', { contextPath, username, currentUser, totalUsersCount, activeNav: 'users' }) %>
+
+    <main>
+      <section class="surface-panel" aria-label="Member Profile Details">
+        <div class="section-header">
+          <div>
+            <div class="inline-meta" style="margin-bottom: 6px;">
+              <span>Directory Record</span>
+              <span class="sep">·</span>
+              <span class="tabular-nums">ID #<%= user ? user.id : 'N/A' %></span>
+              <span class="sep">·</span>
+              <strong style="color: var(--status-ok);"><%= Result %></strong>
+            </div>
+            <h1 class="section-title"><%= user ? user.username : 'User Not Found' %></h1>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <% if (user) { %>
+              <a href="<%= contextPath %>/user/<%= user.username %>" class="btn btn-primary btn-sm">Edit Member Profile</a>
+            <% } %>
+            <a href="<%= contextPath %>/users" class="btn btn-secondary btn-sm">Back to Directory</a>
+          </div>
+        </div>
+
+        <% if (user) { %>
+          <h2 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">User Primary Details</h2>
+          <div class="data-table-wrap" style="margin-bottom: 28px;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Father's Name</th>
+                  <th>Mother's Name</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="tabular-nums">#<%= user.id %></td>
+                  <td style="font-weight: 600;"><%= user.username %></td>
+                  <td><%= user.fatherName || '—' %></td>
+                  <td><%= user.motherName || '—' %></td>
+                  <td><%= user.userEmail || '—' %></td>
+                  <td class="tabular-nums"><%= user.phoneNumber || '—' %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">User Extended Details</h2>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Date Of Birth</th>
+                  <th>Gender</th>
+                  <th>Marital Status</th>
+                  <th>Permanent Address</th>
+                  <th>Temporary Address</th>
+                  <th>Primary Occupation</th>
+                  <th>Secondary Occupation</th>
+                  <th>Skills</th>
+                  <th>Secondary Phone</th>
+                  <th>Nationality</th>
+                  <th>Language</th>
+                  <th class="num-col">Experience</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="tabular-nums"><%= user.dateOfBirth || '—' %></td>
+                  <td><%= user.gender || '—' %></td>
+                  <td><%= user.maritalStatus || '—' %></td>
+                  <td><%= user.permanentAddress || '—' %></td>
+                  <td><%= user.tempAddress || '—' %></td>
+                  <td><%= user.primaryOccupation || '—' %></td>
+                  <td><%= user.secondaryOccupation || '—' %></td>
+                  <td><%= user.skills || '—' %></td>
+                  <td class="tabular-nums"><%= user.secondaryPhoneNumber || '—' %></td>
+                  <td><%= user.nationality || '—' %></td>
+                  <td><%= user.language || '—' %></td>
+                  <td class="num-col"><%= user.workingExperience ? String(user.workingExperience).trim() + ' yrs' : '—' %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p style="color: var(--text-muted);">No user record exists for this identifier.</p>
+        <% } %>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

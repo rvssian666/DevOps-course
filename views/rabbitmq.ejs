@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>RabbitMQ Broker Status — HKH Infotech VProfile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="<%= contextPath %>/resources/Images/icons/favicon.ico"/>
+  <link rel="stylesheet" href="<%= contextPath %>/resources/css/modern.css">
+</head>
+<body>
+  <%- include('partials/topbar', { contextPath, username, activeNav: 'rabbit' }) %>
+
+  <div class="workspace-shell">
+    <%- include('partials/sidebar', { contextPath, username, currentUser, totalUsersCount, activeNav: 'rabbit' }) %>
+
+    <main>
+      <%
+        const connections = Math.floor(Math.random() * 6) + 3;
+        const channels = connections * 2;
+        const exchange = 4;
+        const queues = Math.floor(Math.random() * 8) + 4;
+      %>
+      <section class="surface-panel" aria-label="RabbitMQ Broker Telemetry">
+        <div class="section-header">
+          <div>
+            <div class="inline-meta" style="margin-bottom: 6px;">
+              <span>AMQP 0-9-1 Broker</span>
+              <span class="sep">·</span>
+              <span>Host: vpromq01:5672</span>
+              <span class="sep">·</span>
+              <strong style="color: var(--status-ok);">Status: Operational</strong>
+            </div>
+            <h1 class="section-title">RabbitMQ Initiated</h1>
+            <p class="section-subtitle">
+              Generated <span class="tabular-nums"><%= connections %></span> Connections · <span class="tabular-nums"><%= channels %></span> Channels, <span class="tabular-nums"><%= exchange %></span> Exchanges, and <span class="tabular-nums"><%= queues %></span> Queues
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <a href="<%= contextPath %>/user/rabbit" class="btn btn-primary btn-sm">Produce Test Batch</a>
+            <a href="<%= contextPath %>/welcome" class="btn btn-secondary btn-sm">Back to Workspace</a>
+          </div>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Resource Metric</th>
+                <th>Virtual Host</th>
+                <th>Protocol</th>
+                <th class="num-col">Active Count</th>
+                <th>State</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight: 600;">Client Connections</td>
+                <td class="tabular-nums">/vprofile</td>
+                <td class="tabular-nums">AMQP 0-9-1</td>
+                <td class="num-col"><%= connections %></td>
+                <td style="color: var(--status-ok); font-weight: 600;">Active</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600;">Multiplexed Channels</td>
+                <td class="tabular-nums">/vprofile</td>
+                <td class="tabular-nums">AMQP 0-9-1</td>
+                <td class="num-col"><%= channels %></td>
+                <td style="color: var(--status-ok); font-weight: 600;">Active</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600;">Configured Exchanges</td>
+                <td class="tabular-nums">/vprofile</td>
+                <td class="tabular-nums">direct / topic</td>
+                <td class="num-col"><%= exchange %></td>
+                <td style="color: var(--status-ok); font-weight: 600;">Bound</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600;">Consumer Queues</td>
+                <td class="tabular-nums">/vprofile</td>
+                <td class="tabular-nums">durable</td>
+                <td class="num-col"><%= queues %></td>
+                <td style="color: var(--status-ok); font-weight: 600;">Ready</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
